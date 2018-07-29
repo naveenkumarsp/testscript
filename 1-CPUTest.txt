@@ -1,0 +1,6 @@
+#!/bin/bash
+for prime in 4000 16000 32000 64000 128000 ;do
+#Sysbench CPU Max Prime Test
+echo "Performing CPU test cpu-${prime}"
+sysbench --test=cpu --cpu-max-prime=${prime} run > /home/daniel/Desktop/results/cpu-${prime}
+done

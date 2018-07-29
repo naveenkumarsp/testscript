@@ -1,0 +1,9 @@
+#!/bin/bash
+for thread in 1 2 4 8 16 ;do
+#Sysbench Memory test
+echo "Performing memory test mem-${thread}T"
+sysbench --test=memory --memory-block-size=1K --memory-scope=global --memory-total-size=100G --memory-oper=write --num-threads=${thread} run > /home/daniel/Desktop/results/memory-write-T-${thread}
+sysbench --test=memory --memory-block-size=1K --memory-scope=global --memory-total-size=100G --memory-oper=read --num-threads=${thread} run > /home/daniel/Desktop/results/memory-read-T-${thread}
+done
+
+

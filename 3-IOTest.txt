@@ -1,0 +1,21 @@
+#!/bin/bash
+# Create a test 1GB test file
+sysbench --test=fileio --file-total-size=4G --file-num=64 prepare
+for thread in 1 2 4 8 16 ;do
+#Sysbench Random Write OI Test
+echo "Performing test RW-${thread}T"
+sysbench --test=fileio --file-total-size=4G --file-test-mode=rndwr --max-time=60 --max-requests=0 --file-block-size=4K --file-num=64 --num-threads=${thread} run > /home/daniel/Desktop/results/RW-${thread}T
+
+#Sysbench Random Read OI test
+echo "Performing test RR-${thread}T"
+sysbench --test=fileio --file-total-size=4G --file-test-mode=rndrd --max-time=60 --max-requests=0 --file-block-size=4K --file-num=64 --num-threads=${thread} run > /home/daniel/Desktop/results/RR-${thread}T
+
+#Sysbench Random Read/Write OI Tests
+echo "Performing test RRW-${thread}T"
+sysbench --test=fileio --file-total-size=4G --file-test-mode=rndrw --max-time=60 --max-requests=0 --file-block-size=4K --file-num=64 --num-threads=${thread} run > /home/daniel/Desktop/results/RRW-${thread}T
+
+done
+
+# to clean up the test file.
+sysbench --test=fileio --file-total-size=4G --file-num=64 cleanup
+
